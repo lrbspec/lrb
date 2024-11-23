@@ -4,7 +4,7 @@ This document describes a draft version of the lrb spec (version 0), files in th
 
 ### definitions & assumptions 
 - all numbers written in little endian
-- integers are named as `u` for unsigned and `i` for signed, followed by the number of bits, so a u8 is one byte.
+- integers are named as `u` for unsigned and `i` for signed, followed by the number of bits, so a `u8` is one byte.
 - floats are named as `f` followed by the number of bits, so an `f64` is a double precision float and an `f32` is a single precision float.
 - a bool is one byte, which is `0` if it is false, or otherwise true.
 
