@@ -24,15 +24,9 @@ for each mod in the mod table, the following is written:
 |name length|u8|the length of the name string
 |name|utf-8 string of length [name length]|the name of the mod
 |version|u16|starts at 0 and increments with each breaking change to a mod, such that an implementation can know if it's current version of a mod will properly load the file.
-|section count|u8|the number of entries in this mod's section table
-|[section entries]|section_entry[section count]|variable sized list of entries to this mod's section table, each one reading as described below. 
-|optional flag|bool|indicates that this is an optional mod, and that the following string is present (if false the optional string  part of the entry is omitted)
-|optional string length|u8|the length of the optional string
+|data present|bool|is true if this mod stores data aside from it's presence in the modtable. if false the data pointer and data length parts of the entry are omitted.
+|data pointer|u64|pointer to the start of this mod's data
+|data length|u64|the length of the section of data this mod stores in the track, in bytes
+|optional flag|bool|indicates that this is an optional mod, and that the following string is present (if false the optional string part of the entry is omitted)
+|optional string length|u8|the length of the optional string, in bytes
 |optional string|utf-8 string of length [optional string length]|a string intended to be displayed for the user if the track loads without this mod present
-
-### Section Table Entry
-for each section in a mod's section table, the following is written:
-|name|type|description
-|-|-|-
-|pointer|u64|an absolute pointer within the file (if the mod table is `0xFF` bytes long and this section immediately follows then the value of this pointer is `0xFF`)
-|length|u64|length in bytes of this section
