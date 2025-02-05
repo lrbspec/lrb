@@ -2,11 +2,7 @@ This document describes a draft version of the lrb spec (version 0), files in th
 
 [This Other Document](https://tilde.town/~moss/lrr/lrb_proposal.html) describes the initial idea for the format, while this document tries to finalize the spec before a proper version 1 is declared.
 
-### definitions & assumptions 
-- all numbers written in little endian
-- integers are named as `u` for unsigned and `i` for signed, followed by the number of bits, so a `u8` is one byte.
-- floats are named as `f` followed by the number of bits, so an `f64` is a double precision float and an `f32` is a single precision float.
-- a bool is one byte, which is `0` if it is false, or otherwise true.
+some definitions & assumptions are borrowed from [this document](https://github.com/lrbspec/conventions). this includes how type names are written and what they mean (this is especially important for strings which can be written in a number of ways).
 
 ### Mod Table
 at the start of a .lrb file, the following is written:
@@ -21,12 +17,10 @@ at the start of a .lrb file, the following is written:
 for each mod in the mod table, the following is written:
 |name|type|description
 |-|-|-
-|name length|u8|the length of the name string
-|name|utf-8 string of length [name length]|the name of the mod
+|name|string with u8 length and utf-8 encoding|the name of the mod
 |version|u16|starts at 0 and increments with each breaking change to a mod, such that an implementation can know if it's current version of a mod will properly load the file.
 |data present|bool|is true if this mod stores data aside from it's presence in the modtable. if false the data pointer and data length parts of the entry are omitted.
 |data pointer|u64|pointer to the start of this mod's data
 |data length|u64|the length of the section of data this mod stores in the track, in bytes
 |optional flag|bool|indicates that this is an optional mod, and that the following string is present (if false the optional string part of the entry is omitted)
-|optional string length|u8|the length of the optional string, in bytes
-|optional string|utf-8 string of length [optional string length]|a string intended to be displayed for the user if the track loads without this mod present
+|optional string|string with u8 length and utf-8 encoding|a string intended to be displayed for the user if the track loads without this mod present
