@@ -19,8 +19,21 @@ for each mod in the mod table, the following is written:
 |-|-|-
 |name|string with u8 length and utf-8 encoding|the name of the mod
 |version|u16|starts at 0 and increments with each breaking change to a mod, such that an implementation can know if it's current version of a mod will properly load the file.
-|data present|bool|is true if this mod stores data aside from it's presence in the modtable. if false the data pointer and data length parts of the entry are omitted.
-|data pointer|u64|pointer to the start of this mod's data
-|data length|u64|the length of the section of data this mod stores in the track, in bytes
-|optional flag|bool|indicates that this is an optional mod, and that the following string is present (if false the optional string part of the entry is omitted)
-|optional string|string with u8 length and utf-8 encoding|a string intended to be displayed for the user if the track loads without this mod present
+|modflags|u8|see [Modflags](#modflags)
+|data pointer|u64|pointer to the start of this mod's data. may be omitted depending on modflags
+|data length|u64|the length of the section of data this mod stores in the track, in bytes. may be omitted depending on modflags
+|optional string|string with u8 length and utf-8 encoding|a string intended to be displayed for the user if the track loads without this mod present. may be omitted depending on modflags
+
+### Modflags
+the modflags are a single byte with individual bits indicating certain properties of a mod:
+
+`000EDCBA`
+
+|symbol|name|description
+|-|-|-
+|`A`|optional|is `1` if the mod is optional. this indicates the presence of the optional string in the modtable entry.
+|`B`|physics|can be set to `1` to indicate to the loading implementation that the absence of an optional mod will break physics compatibility if missing (but might not have any effect on the track otherwise)
+|`C`|camera|can be set to `1` to indicate to the loading implementation that the absence of an optional mod will break camera compatibility if missing (and therefore animations)
+|`D`|scenery|can be set to `1` to indicate to the loading implementation that the absence of an optional mod will break scenery compatibility if missing (given an arbitrary camera position, can you render and get the same result with/without the mod?)
+|`E`|extra data|a value of `1` indicates the presence of the data pointer & length in the modtable entry. otherwise this mod's only data is it's presence in the modtable.
+|`000`|unused|written as zeros and not used in any way when loading.
