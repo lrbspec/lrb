@@ -22,7 +22,6 @@ for each mod in the mod table, the following is written:
 |modflags|u8|see [Modflags](#modflags)
 |data pointer|u64|pointer to the start of this mod's data. may be omitted depending on modflags
 |data length|u64|the length of the section of data this mod stores in the track, in bytes. may be omitted depending on modflags
-|optional string|string with u8 length and utf-8 encoding|a string intended to be displayed for the user if the track loads without this mod present. may be omitted depending on modflags
 
 ### Modflags
 the modflags are a single byte with individual bits indicating certain properties of a mod:
@@ -31,7 +30,7 @@ the modflags are a single byte with individual bits indicating certain propertie
 
 |symbol|name|description
 |-|-|-
-|`A`|optional|is `1` if the mod is optional. this indicates the presence of the optional string in the modtable entry.
+|`A`|required|should be set to `1` if the mod is required. this means that it is *not* safe to ignore the mod.
 |`B`|physics|can be set to `1` to indicate to the loading implementation that the absence of an optional mod will break physics compatibility if missing (but might not have any effect on the track otherwise)
 |`C`|camera|can be set to `1` to indicate to the loading implementation that the absence of an optional mod will break camera compatibility if missing (and therefore animations)
 |`D`|scenery|can be set to `1` to indicate to the loading implementation that the absence of an optional mod will break scenery compatibility if missing (given an arbitrary camera position, can you render and get the same result with/without the mod?)
