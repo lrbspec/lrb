@@ -11,6 +11,8 @@ at the start of a .lrb file, the following is written:
 |mod count|u16|the amount of entries in the mod table
 |[mod entries]|modtable_entry[mod count]|list of entries to the mod table, each one reading as described below
 
+the mod table should not have duplicate entries in it. duplicate entries are mods that have the same name string, regardless of version or other metadata. the standard way to handle files that break this invariant is to ignore any entries but the first.
+
 ### Mod Table Entry
 for each mod in the mod table, the following is written:
 |name|type|description
